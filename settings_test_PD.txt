@@ -1,0 +1,5 @@
+Group Name	filter_in	filter_out	Cell Type	Row
+KO_1	KO_r1@0		Knock Out	#1
+KO_2	KO_r2@0		Knock Out	#2
+CTR_1	Ctr_r1@1		Control	#1
+CTR_2	Ctr_r2@1		Control	#2

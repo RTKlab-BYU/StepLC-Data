@@ -1,0 +1,5 @@
+Group Name	filter_in	filter_out	SPE Type	Sample Amount
+C12 75um 200pg	200pg@0		C12 75um	200pg
+C12 50um  200pg	200pg@1		C12 50um	200pg
+C12 75um 10ng	10ng@0		C12 75um	10ng
+C12 50um 10ng	10ng@1		C12 50um	10ng
