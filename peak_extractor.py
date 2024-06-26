@@ -3,30 +3,39 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # BASELINE_TOLERANCE = 0 # 20 min
-BASELINE_TOLERANCE = 0.5 # 10 min
-MIN_Gradient_SIZE = 10
+# BASELINE_TOLERANCE = 0.5 # 10 min
+BASELINE_TOLERANCE = 3 #30 min
+MIN_Gradient_SIZE = 75
 CONCENTRATIONS = [0,2,5,15,25,80]
 # ABSORBANCES = [-1.11,2.61,3.5,7.67,19.07,54.5] # 20 min
-ABSORBANCES = [-0.22,1.11,3.33,8.64,20.04,55.44] # 10 min
+ABSORBANCES = [-0.05,0.9,2.76,11.2,20.2,56.5] # 30 min
+# ABSORBANCES = [0.5,1,1.5,2,15,50]
+# ABSORBANCES = [-0.22,1.11,3.33,8.64,20.04,55.44] # 10 min
 
 # DATA_FILE = "20min_pub.txt" #20 min
 # OUTPUT_FILENAME = "20min" #20 min
 
-DATA_FILE = "10min_pub.txt" # 10 min
-OUTPUT_FILENAME = "10min" # 10 min
+# DATA_FILE = "10min_pub.txt" # 10 min
+# OUTPUT_FILENAME = "10min" # 10 min
+
+DATA_FILE = "sample.txt" # 30 min
+OUTPUT_FILENAME = "25nL_2h" # 30 min
 
 # FIRST_Gradient_TO_INCLUDE = 18 #20 min
 # LAST_Gradient_TO_INCLUDE = 27 #20min
 
-FIRST_Gradient_TO_INCLUDE = 19 #10 min
-LAST_Gradient_TO_INCLUDE = 28 #10min
+FIRST_Gradient_TO_INCLUDE = 20 #30 min
+LAST_Gradient_TO_INCLUDE = 29 #30 min
+
+# FIRST_Gradient_TO_INCLUDE = 19 #10 min
+# LAST_Gradient_TO_INCLUDE = 28 #10min
 
 # TIME_ADJUST = 15.5 #20min
-TIME_ADJUST = 11 #10min
-
+# TIME_ADJUST = 11 #10min
+TIME_ADJUST = 70 #30min
 
 #print statements
-BREAKS = [1,2,8,15,20,25,45,75,77]
+BREAKS = [1,2,5,8,15,20,25,45,75,77]
 FIRST_BREAK_MIN_TIME = 0.5
 
 # Desired Separation
@@ -95,7 +104,7 @@ for index, row in df.iterrows():
         current = pd.concat([current,pd.DataFrame(data={"Time (min)":[time_elapsed],"% Organic":[convert_to_concentration(signal)]})])
         Gradient_found = True
         percent = convert_to_concentration(signal)
-        print("Gradient_found")
+        print(str(i) + " Gradient_found")
         print(row)
         if check_for_break(percent, break_number, time_elapsed):
             break_number = break_number + 1
