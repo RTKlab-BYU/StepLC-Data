@@ -8,8 +8,8 @@ BASELINE_TOLERANCE = 3 #30 min
 MIN_Gradient_SIZE = 75
 CONCENTRATIONS = [0,2,5,15,25,80]
 # ABSORBANCES = [-1.11,2.61,3.5,7.67,19.07,54.5] # 20 min
-ABSORBANCES = [-0.05,0.9,2.76,11.2,20.2,56.5] # 30 min
-# ABSORBANCES = [0.5,1,1.5,2,15,50]
+# ABSORBANCES = [-0.05,0.9,2.76,11.2,20.2,56.5] # 30 min
+ABSORBANCES = [0.5,1.2,2.2,11.7,16.4,50]
 # ABSORBANCES = [-0.22,1.11,3.33,8.64,20.04,55.44] # 10 min
 
 # DATA_FILE = "20min_pub.txt" #20 min
@@ -18,14 +18,26 @@ ABSORBANCES = [-0.05,0.9,2.76,11.2,20.2,56.5] # 30 min
 # DATA_FILE = "10min_pub.txt" # 10 min
 # OUTPUT_FILENAME = "10min" # 10 min
 
-DATA_FILE = "sample.txt" # 30 min
-OUTPUT_FILENAME = "25nL_2h" # 30 min
+# DATA_FILE = "first2_days.txt" # 30 min
+# OUTPUT_FILENAME = "25nLmin_20rep" # 30 min
+
+DATA_FILE = "final_25nLmin.txt" # 30 min
+OUTPUT_FILENAME = "25nLmin_45rep" # 30 min
+
+# DATA_FILE = "final_25nLmin.txt" # 30 min
+# OUTPUT_FILENAME = "25nLmin_10rep" # 30 min
 
 # FIRST_Gradient_TO_INCLUDE = 18 #20 min
 # LAST_Gradient_TO_INCLUDE = 27 #20min
 
-FIRST_Gradient_TO_INCLUDE = 20 #30 min
-LAST_Gradient_TO_INCLUDE = 29 #30 min
+# FIRST_Gradient_TO_INCLUDE = 7 #30 min
+# LAST_Gradient_TO_INCLUDE = 26 #30 min
+
+FIRST_Gradient_TO_INCLUDE = 7 #30 min
+LAST_Gradient_TO_INCLUDE = 51 #30 min
+
+# FIRST_Gradient_TO_INCLUDE = 7 #30 min
+# LAST_Gradient_TO_INCLUDE = 16 #30 min
 
 # FIRST_Gradient_TO_INCLUDE = 19 #10 min
 # LAST_Gradient_TO_INCLUDE = 28 #10min
@@ -130,21 +142,25 @@ for index, row in df.iterrows():
         
         if i == FIRST_Gradient_TO_INCLUDE:
             current = current.rename(columns={"% Organic": "Gradient "+str(j)})
-            all = current
+            # all = current
             include = True
         elif i >= FIRST_Gradient_TO_INCLUDE and i <= LAST_Gradient_TO_INCLUDE:
             current = current.rename(columns={"% Organic": "Gradient "+str(j)})
-            all = pd.merge(all,current,how="outer")
+            # all = pd.merge(all,current,how="outer")
             # print(all)
             include = True
+        elif i > LAST_Gradient_TO_INCLUDE:
+            include = False
+            break
         else: 
             include = False
         if include:
-            # red = j * 11 #20min
-            red = 194-j*11 #10min
-            green = j*11/2
-            # blue = 255-j*11 #20min
-            blue = j*11 #10min
+            # red = 194-j*1 #10min
+            green = 194-j*1
+            # blue = 255-j*1 #20min
+            # green = j*1/2
+            blue = 10 + j*1 #10min
+            red = 10 + j*1 #10min
             fig.add_trace(go.Scatter(x=current["Time (min)"], y=current["Gradient "+str(j)],
                     mode='lines',
                     line=dict(
@@ -166,22 +182,26 @@ for index, row in df.iterrows():
         print(row)
 if i == FIRST_Gradient_TO_INCLUDE:
     current = current.rename(columns={"% Organic": "Gradient "+str(j)})
-    all = current
+    # all = current
     j = 1
     include = True
 elif i >= FIRST_Gradient_TO_INCLUDE and i <= LAST_Gradient_TO_INCLUDE:
     current = current.rename(columns={"% Organic": "Gradient "+str(j)})
-    all = pd.merge(all,current,how="outer")
+    # all = pd.merge(all,current,how="outer")
     # print(all)
     include = True
+elif i > LAST_Gradient_TO_INCLUDE:
+    include = False
+    pass
 else: 
     include = False
 if include:
-    # red = j * 11 #20min
-    red = 255-j*11 #10min
-    green = j*11/2
-    blue = 255-j*11 #20min
-    # blue = j*11 #10min
+    # red = 194-j*1 #10min
+    green = 194-j*1
+    # blue = 255-j*1 #20min
+    # green = j*1/2
+    blue = 10 + j*1 #10min
+    red = 10 + j*1 #10min
     fig.add_trace(go.Scatter(x=current["Time (min)"], y=current["Gradient "+str(j)],
             mode='lines',
             line=dict(
@@ -202,4 +222,4 @@ fig.write_image("images/"+OUTPUT_FILENAME+".png",format="png",
                  engine = "kaleido") 
 fig.show()
 
-all.to_excel(OUTPUT_FILENAME+".xlsx")
+# all.to_excel(OUTPUT_FILENAME+".xlsx")
