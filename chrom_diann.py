@@ -9,7 +9,7 @@ from pathlib import Path
 INPUT_FILES = {"10 min":"10min_January/report.tsv","12 min":"Lavender/report.tsv","18 min": "report.tsv","20 min":"20min_January/report.tsv"}
 # INPUT_FILES = {"20 min":"20min_January/report.tsv"}
 File_Category_Name = "Gradient Length"
-FILTERS = ["16ng","20ng","10ng","1ng","200pg","02ng_QC_A100_R100"]
+FILTERS = ["16ng","20ng","10ng","1ng","200pg","02ng_Q"]
 # FILTERS = ["200pg"]
 Filter_Category_Name = "Sample Amount"
 WRITE_OUTPUT = True
@@ -62,7 +62,7 @@ def plot_RTstdev_boxplot(RTs, plot_options, username):
         for eachCategory in categories:
             fig_data.append(go.Box(name = eachCategory,
                         x=RTs.loc[RTs[plot_options["Group By Color"]]==eachCategory,plot_options["Group By X"]].tolist(),
-                        y=RTs.loc[RTs[plot_options["Group By Color"]]==eachCategory,"Stdev"].tolist(),
+                        y=RTs.loc[RTs[plot_options["Group By Color"]]==eachCategory,"Stdev"].tolist()*60,
                         fillcolor = plot_options["color"][i],
                         boxpoints=plot_options["outliers"],
                         marker=dict(opacity=0)
@@ -82,8 +82,8 @@ def plot_RTstdev_boxplot(RTs, plot_options, username):
     # create the interactive plot
         fig = px.box(RTs,
                         x="Group Name",
-                        y='Stdev',
-                        color="Group Name",
+                        y=RTs['Stdev']*60,
+                        # color="Group Name",
                         color_discrete_sequence=plot_options["color"],
                         width=plot_options["width"],
                         height=plot_options["height"],
@@ -148,12 +148,12 @@ for eachType in INPUT_FILES.keys():
             # currentData[File_Category_Name] = eachType
             # currentData[Filter_Category_Name] = eachFilter
             # currentData["Group Name"] = eachType + " " + eachFilter
-            new_names = [str(x) + " " + str(RT_Length) + " " + eachFilter for x in currentData.columns.to_series()[1:]]
+            new_names = [str(int(RT_Length)) + " " + eachFilter for x in currentData.columns.to_series()[1:]]
             
             mapping  = dict(zip(currentData.columns.to_series()[1:], new_names))
             currentData = currentData.rename(columns=mapping)
         if currentData.size >0:
-            all_names.append("Stdev "+str(RT_Length) + " " + eachFilter)
+            all_names.append(str(int(RT_Length)) + " " + eachFilter)
             if i == 0:
                 allPeaks = currentData
             else:

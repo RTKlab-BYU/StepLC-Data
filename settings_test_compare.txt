@@ -1,0 +1,5 @@
+Conditions	filter_in	filter_out	Sample Amount	Acquisition Mode
+StepLC 200 pg	200pg@0	1762,1763,1782,1783	4ng	DDA
+StepLC 10 ng	10ng@0	1775	4ng	DDA
+Binary 200 pg	200pg@1	5856,5857	200pg	DIA
+Binary 10 ng	10ng@1	5856,5857	10ng	DIA
